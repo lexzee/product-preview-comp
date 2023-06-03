@@ -2,12 +2,27 @@ import './App.css';
 import imgMobile from './images/image-product-mobile.jpg';
 import imgDesktop from './images/image-product-desktop.jpg';
 import cart from './images/icon-cart.svg';
+import { useEffect, useState } from 'react'
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleView = () => {
+      setIsMobile(window.innerWidth < 780);
+    };
+    handleView();
+    window.addEventListener('resize', handleView);
+
+    return () => {
+      window.removeEventListener('resize', handleView);
+    }
+  }, [])
+
   return (
     <>
     <div className="App">
-      <img src={imgMobile} alt="product" className="cardImg" />
+      <img src={isMobile ? imgMobile : imgDesktop} alt="product" className="cardImg" />
       <div className="cardInfo">
         <div className="cardInfo__title">
           <span className="prodType">PERFUME</span>
@@ -30,7 +45,7 @@ function App() {
     </div>
     <div class="attribution">
       Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank" rel="noreferrer">Frontend Mentor</a>.
-      Coded by <a href="https://github.com/lexzee">Your Name Here</a>.
+      Coded by <a href="https://github.com/lexzee" target="_blank" rel="noreferrer">Lexzee</a>.
     </div>
     </>
   );
